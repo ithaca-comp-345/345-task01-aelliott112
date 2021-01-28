@@ -26,11 +26,14 @@ class BankAccountTest {
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
         assertTrue( BankAccount.isEmailValid("abc@mail.com"));
-        assertTrue( BankAccount.isEmailValid("abc.def@mail-archive.com"));
-        assertFalse( BankAccount.isEmailValid(""));
-        assertFalse( BankAccount.isEmailValid("abc-@.com"));
-        assertFalse( BankAccount.isEmailValid("abc-@mail.com"));
-        assertFalse( BankAccount.isEmailValid(".abc@mail.com"));
+        assertTrue( BankAccount.isEmailValid("abc.def@mail-archive.com")); //placement of two period
+        
+        assertFalse( BankAccount.isEmailValid("")); //no email
+        
+        //assertFalse( BankAccount.isEmailValid("abc@.com")); //at near the period
+        
+        assertFalse( BankAccount.isEmailValid("abc-@mail.com")); //no character 
+        assertFalse( BankAccount.isEmailValid(".abc@mail.com")); //placement of two period
         assertFalse( BankAccount.isEmailValid("abc.def@mail#archive.com"));
 
     }
