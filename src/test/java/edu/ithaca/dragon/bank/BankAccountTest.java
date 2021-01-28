@@ -24,16 +24,23 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
-        assertTrue(BankAccount.isEmailValid( "a@b.com")); //more than one letter bewteen at and period
-        assertTrue( BankAccount.isEmailValid("abc@mail.com"));
-        assertTrue( BankAccount.isEmailValid("abc.def@mail-archive.com")); //placement of two period
         
         assertFalse( BankAccount.isEmailValid("")); //no email
         
-        assertFalse( BankAccount.isEmailValid("abc@.com")); //at near the period
-        
-        assertFalse( BankAccount.isEmailValid("abc-@mail.com")); //no character 
+        //period placement
+        assertTrue( BankAccount.isEmailValid("abc.def@mail-archive.com")); //placement of two period
         assertFalse( BankAccount.isEmailValid(".abc@mail.com")); //placement of two period
+        assertFalse( BankAccount.isEmailValid("abc@.com")); //at near the period
+        assertFalse( BankAccount.isEmailValid("abc@com.")); // period at the end
+        
+        //at placement
+        assertFalse( BankAccount.isEmailValid("abc-@mail.com")); //no character before at
+        assertFalse( BankAccount.isEmailValid("@mail.com")); // at first
+        assertFalse( BankAccount.isEmailValid("abcmail.com@")); // at last
+
+        //Things bewteen at and period
+        assertTrue(BankAccount.isEmailValid( "a@b.com")); //one letter bewteen at and period
+        assertTrue( BankAccount.isEmailValid("abc@mail.com")); //more than one letter bewteen at and period
         assertFalse( BankAccount.isEmailValid("abc.def@mail#archive.com")); //no other chararcters bewteen at and period 
 
     }
