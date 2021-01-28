@@ -24,7 +24,7 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));
+        assertTrue(BankAccount.isEmailValid( "a@b.com")); //more than one letter bewteen at and period
         assertTrue( BankAccount.isEmailValid("abc@mail.com"));
         assertTrue( BankAccount.isEmailValid("abc.def@mail-archive.com")); //placement of two period
         
@@ -34,7 +34,7 @@ class BankAccountTest {
         
         assertFalse( BankAccount.isEmailValid("abc-@mail.com")); //no character 
         assertFalse( BankAccount.isEmailValid(".abc@mail.com")); //placement of two period
-        assertFalse( BankAccount.isEmailValid("abc.def@mail#archive.com"));
+        assertFalse( BankAccount.isEmailValid("abc.def@mail#archive.com")); //no other chararcters bewteen at and period 
 
     }
 
