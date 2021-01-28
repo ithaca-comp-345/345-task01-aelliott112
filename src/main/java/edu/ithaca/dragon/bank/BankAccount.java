@@ -68,6 +68,8 @@ public class BankAccount {
             System.out.println("Domain Name: " + domainName);
             System.out.println("Suffix: " + suffix);
 
+            //Check that recipient is not empty
+            if (recipient.length() == 0) return false;
             //First and last characters of recipient must be a letter
             //Tests and implementation do not account for number at beginning or end
             if (recipient.charAt(0) > 122 || recipient.charAt(0) < 97) {
@@ -83,6 +85,11 @@ public class BankAccount {
                     return false;
                 }
             }
+            //Check that domainName is not empty
+            if (domainName.length() == 0) return false;
+
+            //Check that suffix is not empty
+            if (suffix.length() == 0) return false;
 
             return true;
         }

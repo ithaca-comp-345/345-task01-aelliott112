@@ -30,7 +30,7 @@ class BankAccountTest {
         
         assertFalse( BankAccount.isEmailValid("")); //no email
         
-        //assertFalse( BankAccount.isEmailValid("abc@.com")); //at near the period
+        assertFalse( BankAccount.isEmailValid("abc@.com")); //at near the period
         
         assertFalse( BankAccount.isEmailValid("abc-@mail.com")); //no character 
         assertFalse( BankAccount.isEmailValid(".abc@mail.com")); //placement of two period
