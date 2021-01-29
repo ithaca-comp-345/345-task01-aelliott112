@@ -31,6 +31,9 @@ public class BankAccount {
      * 
      */
     public void withdraw (double amount) throws InsufficientFundsException{
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid withdrawl amount");
+        }
         if (amount <= balance){
             balance -= amount;
         }
@@ -63,10 +66,6 @@ public class BankAccount {
             for (int l = dotIndex + 1; l < email.length(); l++) {
                 suffix = suffix + email.charAt(l);
             }
-
-            System.out.println("Recipient: " + recipient);
-            System.out.println("Domain Name: " + domainName);
-            System.out.println("Suffix: " + suffix);
 
             //Check that recipient is not empty
             if (recipient.length() == 0) return false;
