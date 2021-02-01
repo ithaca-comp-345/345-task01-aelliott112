@@ -25,11 +25,9 @@ class BankAccountTest {
 
         assertEquals(70, bankAccount.getBalance());  //small amount
            
-
         //over draws(not enough money)
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(400000));
-
 
         //IllegalArgumentException 
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-300));
@@ -67,6 +65,24 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance());
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+    }
+
+    @Test
+    void isAmountValidTest () {
+       
+        //Vaild cases, high and low amount, cents
+        assertTrue(BankAccount.isAmountValid(40.0));
+        assertTrue(BankAccount.isAmountValid(0.40)); 
+        assertTrue(BankAccount.isAmountValid(100.00));
+        assertTrue(BankAccount.isAmountValid(100.50));
+
+        assertFalse(BankAccount.isAmountValid(0)); //zero case
+        //assertFalse(BankAccount.isAmountValid(4)); //no double
+
+        //negative cases
+        assertFalse(BankAccount.isAmountValid(-20)); 
+        assertFalse(BankAccount.isAmountValid(-35.00)); 
+        assertFalse(BankAccount.isAmountValid(-430.0));   
     }
 
 }

@@ -41,6 +41,20 @@ public class BankAccount {
             throw new InsufficientFundsException("Not enough money");
         }
     }
+    
+    /**
+     * @post takes a double and returns true if the amount 
+     * is positive and has two decimal points or less, and false otherwise. 
+     */
+    public static boolean isAmountValid (double amount) {
+        if (amount >.0 ){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
 
 
     public static boolean isEmailValid(String email){
