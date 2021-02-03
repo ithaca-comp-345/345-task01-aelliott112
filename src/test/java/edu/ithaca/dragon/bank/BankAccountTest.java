@@ -112,15 +112,16 @@ class BankAccountTest {
         assertEquals(420.50, bankAccountTo.getBalance()); 
         assertEquals(179.50, bankAccountFrom.getBalance()); 
 
-        bankAccountFrom.transfer(9, bankAccountFrom, bankAccountTo); //small
-        assertEquals(429.50, bankAccountTo.getBalance()); 
-        assertEquals(70.50, bankAccountFrom.getBalance());
-
         bankAccountFrom.transfer(100.00, bankAccountFrom, bankAccountTo); //large
         assertEquals(520.50, bankAccountTo.getBalance()); 
         assertEquals(79.50, bankAccountFrom.getBalance());
 
-        //over draw
+        bankAccountFrom.transfer(9, bankAccountFrom, bankAccountTo); //small
+        assertEquals(529.50, bankAccountTo.getBalance()); 
+        assertEquals(70.50, bankAccountFrom.getBalance());
+
+
+        //negative
         assertThrows(IllegalArgumentException.class, ()-> bankAccountFrom.transfer(-300, bankAccountFrom, bankAccountTo));
         assertThrows(IllegalArgumentException.class, ()-> bankAccountFrom.transfer(-300.00, bankAccountFrom, bankAccountTo));
         assertThrows(IllegalArgumentException.class, ()-> bankAccountFrom.transfer(-300.75, bankAccountFrom, bankAccountTo));

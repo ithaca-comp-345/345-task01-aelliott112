@@ -64,7 +64,15 @@ public class BankAccount {
      * 
      */
     public void transfer (double amount, BankAccount accountFrom, BankAccount accountTo) throws IllegalArgumentException{
-      
+        if (isAmountValid(amount) == false) { 
+            throw new IllegalArgumentException("Invalid to amount transfer");
+        }
+        try{
+            accountFrom.withdraw(amount);
+            accountTo.deposit(amount);
+        } catch(Exception e) {
+            throw new IllegalArgumentException();
+        }
     
     }
     
