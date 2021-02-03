@@ -27,19 +27,45 @@ public class BankAccount {
     }
 
     /**
+     * @post take the amount into a account 
+     * throws if neg or zero to deposit  // savingAccount.deposit(20) 
+     */
+    public void deposit (double amount) throws IllegalArgumentException{
+    
+         if (isAmountValid(amount) == false) { 
+            throw new IllegalArgumentException("Invalid amount to deposit");
+        }
+        else{
+            balance += amount;
+        }
+        
+    }
+
+    /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      * 
      */
     public void withdraw (double amount) throws InsufficientFundsException{
-        if (amount <= 0) {
+        if (isAmountValid(amount) == false) { 
             throw new IllegalArgumentException("Invalid withdrawl amount");
         }
-        if (amount <= balance){
+        else if (amount <= balance){
             balance -= amount;
         }
         else {
             throw new InsufficientFundsException("Not enough money");
         }
+    }
+
+    /**
+     * @post withdraw the amount from one account and deposit it into the other account 
+     * throws IllegalArgumentException:
+     * when withdraw less then the amount in the bankaccount 
+     * 
+     */
+    public void transfer (double amount, BankAccount accountFrom, BankAccount accountTo) throws IllegalArgumentException{
+      
+    
     }
     
     /**

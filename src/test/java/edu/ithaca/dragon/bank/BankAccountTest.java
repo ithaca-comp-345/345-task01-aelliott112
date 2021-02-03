@@ -7,23 +7,30 @@ import static org.junit.jupiter.api.Assertions.*;
 class BankAccountTest {
 
     @Test
-    void getBalanceTest() {
+    void getBalanceTest() throws InsufficientFundsException {
+        //TODO amount element if like neg or double
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         assertEquals(200, bankAccount.getBalance());
-    }
+        bankAccount.withdraw(100);
 
+        assertEquals(100, bankAccount.getBalance());
+        bankAccount.withdraw(100);
+
+    }
 
     @Test
     void withdrawTest () throws InsufficientFundsException{
-        BankAccount bankAccount = new BankAccount("a@b.com", 200); //200-100=100-30=70
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        
         bankAccount.withdraw(100);
-
         assertEquals(100, bankAccount.getBalance()); //larger amount
 
         bankAccount.withdraw(30);
-
         assertEquals(70, bankAccount.getBalance());  //small amount
+
+        bankAccount.withdraw(.40);
+        assertEquals(69.60, bankAccount.getBalance());  //cent
            
         //over draws(not enough money)
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
@@ -66,9 +73,59 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance());
         
         //check for exception thrown correctly
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", -100));
-        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", -100.00));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100)); //no cent
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", -100)); //negative
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", -100.00)); //negative with cent
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", -100.75)); ////negative with value cent
+        
+    }
+
+    @Test
+    void depositTest () throws InsufficientFundsException{
+        BankAccount bankAccount = new BankAccount("a@b.com", 200); 
+
+        bankAccount.deposit(100);
+        assertEquals(300, bankAccount.getBalance()); //large amount
+
+        bankAccount.deposit(20);
+        assertEquals(320, bankAccount.getBalance()); //small amount
+
+        bankAccount.deposit(20.00);
+        assertEquals(340.00, bankAccount.getBalance()); //no cent
+
+        bankAccount.deposit(0.40);
+        assertEquals(340.40, bankAccount.getBalance()); //cent
+           
+        //IllegalArgumentException 
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-300)); //no cent
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-300.00)); //cent
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-300.75)); //cent and negative
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(0)); //no amount
+    }
+
+    @Test
+    void transferTest() throws InsufficientFundsException {
+        BankAccount bankAccountFrom = new BankAccount("a@b.com", 200);
+        BankAccount bankAccountTo = new BankAccount("a@b.com", 400);
+
+        bankAccountFrom.transfer(20.50, bankAccountFrom, bankAccountTo); //cent
+        assertEquals(420.50, bankAccountTo.getBalance()); 
+        assertEquals(179.50, bankAccountFrom.getBalance()); 
+
+        bankAccountFrom.transfer(9, bankAccountFrom, bankAccountTo); //small
+        assertEquals(429.50, bankAccountTo.getBalance()); 
+        assertEquals(70.50, bankAccountFrom.getBalance());
+
+        bankAccountFrom.transfer(100.00, bankAccountFrom, bankAccountTo); //large
+        assertEquals(520.50, bankAccountTo.getBalance()); 
+        assertEquals(79.50, bankAccountFrom.getBalance());
+
+        //over draw
+        assertThrows(IllegalArgumentException.class, ()-> bankAccountFrom.transfer(-300, bankAccountFrom, bankAccountTo));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccountFrom.transfer(-300.00, bankAccountFrom, bankAccountTo));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccountFrom.transfer(-300.75, bankAccountFrom, bankAccountTo));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccountFrom.transfer(0, bankAccountFrom, bankAccountTo));
+    
     }
 
     @Test
@@ -81,10 +138,12 @@ class BankAccountTest {
         assertTrue(BankAccount.isAmountValid(100.50));
 
         assertFalse(BankAccount.isAmountValid(0)); //zero case
-        //assertFalse(BankAccount.isAmountValid(4)); //no double
+        assertTrue(BankAccount.isAmountValid(4)); //no double
 
         //negative cases
         assertFalse(BankAccount.isAmountValid(-20)); 
+        assertFalse(BankAccount.isAmountValid(-.20)); 
+        assertFalse(BankAccount.isAmountValid(-20.50)); 
         assertFalse(BankAccount.isAmountValid(-35.00)); 
         assertFalse(BankAccount.isAmountValid(-430.0));   
     }
